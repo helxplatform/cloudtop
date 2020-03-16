@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv sh
+echo "Starting window manager for user $USER_NAME on DISPLAY $DISPLAY ..."
+
+# first we wait for the vncserver
+until pids=$(pidof Xtigervnc)
+do   
+    sleep 1
+done
+HOME=$USER_HOME
+export HOME
+s6-setuidgid $USER_NAME $HOME/wm_startup.sh > /tmp/wm_startup.log

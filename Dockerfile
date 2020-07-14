@@ -124,6 +124,9 @@ RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 ### Make the /usr/local/bin/renci directory
 RUN mkdir -p /usr/local/renci/bin
 
+# Remove the light-locker as it's causing trouble
+RUN apt purge light-locker -y
+
 EXPOSE 80
 EXPOSE 443
 

@@ -48,9 +48,7 @@ def test_cloudtop_init(image, user, passwd):
    client = docker.from_env()
    clientList = client.containers.list()
 
-   print(image)
    container = client.containers.run(image,  environment=envDict,  ports=portDict, detach=True)
-   print (container.id)
 
    # This gives the container some time to spin up so we can find the string we care 
    # about in the logs
@@ -83,9 +81,7 @@ def test_cloudtop_glx(image, user, passwd):
    client = docker.from_env()
    clientList = client.containers.list()
 
-   print(image)
    container = client.containers.run(image,  environment=envDict,  ports=portDict, detach=True)
-   print (container.id)
 
    # This gives the container some time to spin up so we can execute the command
    # about in the logs

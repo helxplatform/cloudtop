@@ -1,7 +1,7 @@
 FROM library/tomcat:9-jre8 as tomcat
 # Env for Guacamole
 ENV ARCH=amd64 \
-  GUAC_VER=1.0.0 \
+  GUAC_VER=1.2.0 \
   GUACAMOLE_HOME=/app/guacamole
 
 # Env for VNC
@@ -41,6 +41,7 @@ RUN curl -SLO "https://github.com/just-containers/s6-overlay/releases/download/v
 # Copy in the static GUACAMOLE configuration files.
 ADD ./src/common/guacamole/guacamole.properties ${GUACAMOLE_HOME} 
 ADD ./src/common/guacamole/user-mapping-template.xml ${GUACAMOLE_HOME}
+ADD ./src/common/guacamole/add-user-template.sql ${GUACAMOLE_HOME}
 
 WORKDIR ${GUACAMOLE_HOME}
 
@@ -51,6 +52,7 @@ RUN apt-get update && apt-get install -y \
     libswscale-dev libfreerdp-dev libpango1.0-dev \
     libssh2-1-dev libtelnet-dev libvncserver-dev \
     libpulse-dev libssl-dev libvorbis-dev libwebp-dev \
+    mysql-server sudo \
   && rm -rf /var/lib/apt/lists/*
 
 # Link FreeRDP to where guac expects it to be
@@ -68,7 +70,7 @@ RUN curl -SLO "http://apache.org/dyn/closer.cgi?action=download&filename=guacamo
   && rm -rf guacamole-server-${GUAC_VER}.tar.gz guacamole-server-${GUAC_VER} \
   && ldconfig
 
-# Install guacamole-client and postgres auth adapter
+# Install guacamole-client
 RUN set -x \
   && rm -rf ${CATALINA_HOME}/webapps/ROOT \
   && curl -SLo ${CATALINA_HOME}/webapps/ROOT.war "http://apache.org/dyn/closer.cgi?action=download&filename=guacamole/${GUAC_VER}/binary/guacamole-${GUAC_VER}.war" \
@@ -76,16 +78,37 @@ RUN set -x \
   && tar -xzf guacamole-auth-jdbc-${GUAC_VER}.tar.gz \
   && rm -rf guacamole-auth-jdbc-${GUAC_VER} guacamole-auth-jdbc-${GUAC_VER}.tar.gz
 
-# Add optional extensions
+# Add auth-header extensions
 RUN set -xe \
   && mkdir ${GUACAMOLE_HOME}/extensions-available \
-  && for i in auth-ldap auth-duo auth-header auth-cas auth-openid auth-quickconnect auth-totp; do \
+  && for i in auth-header ; do \
     echo "http://apache.org/dyn/closer.cgi?action=download&filename=guacamole/${GUAC_VER}/binary/guacamole-${i}-${GUAC_VER}.tar.gz" \
     && curl -SLO "http://apache.org/dyn/closer.cgi?action=download&filename=guacamole/${GUAC_VER}/binary/guacamole-${i}-${GUAC_VER}.tar.gz" \
     && tar -xzf guacamole-${i}-${GUAC_VER}.tar.gz \
     && cp guacamole-${i}-${GUAC_VER}/guacamole-${i}-${GUAC_VER}.jar ${GUACAMOLE_HOME}/extensions-available/ \
+    && cp guacamole-${i}-${GUAC_VER}/guacamole-${i}-${GUAC_VER}.jar ${GUACAMOLE_HOME}/extensions/ \
     && rm -rf guacamole-${i}-${GUAC_VER} guacamole-${i}-${GUAC_VER}.tar.gz \
   ;done
+
+# Add auth-jdbc extensions
+RUN set -xe \
+  && for i in auth-jdbc ; do \
+    echo "http://apache.org/dyn/closer.cgi?action=download&filename=guacamole/${GUAC_VER}/binary/guacamole-${i}-${GUAC_VER}.tar.gz" \
+    && curl -SLO "http://apache.org/dyn/closer.cgi?action=download&filename=guacamole/${GUAC_VER}/binary/guacamole-${i}-${GUAC_VER}.tar.gz" \
+    && tar -xvzf guacamole-${i}-${GUAC_VER}.tar.gz \
+    && cp -v guacamole-${i}-${GUAC_VER}/mysql/guacamole-${i}-mysql-${GUAC_VER}.jar ${GUACAMOLE_HOME}/extensions-available/ \
+    && cp -v guacamole-${i}-${GUAC_VER}/mysql/guacamole-${i}-mysql-${GUAC_VER}.jar ${GUACAMOLE_HOME}/extensions/ \
+    && rm -rf guacamole-${i}-${GUAC_VER}.tar.gz \
+  ;done
+
+# Grab and install the needed mysql driver
+RUN set -xe \
+  && curl -SLO "http://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-J/mysql-connector-java_8.0.21-1debian9_all.deb" \
+  && ar x mysql-connector-java_8.0.21-1debian9_all.deb data.tar.xz \
+  && tar xvf data.tar.xz \
+  && cp -v usr/share/java/mysql-connector-java-8.0.21.jar ${GUACAMOLE_HOME}/extensions-available/ \
+  && cp -v usr/share/java/mysql-connector-java-8.0.21.jar ${GUACAMOLE_HOME}/lib/ 
+# && rm -rf postgresql-42.2.16.jar 
 
 ENV GUACAMOLE_HOME=/config/guacamole
 

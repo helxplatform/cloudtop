@@ -3,7 +3,7 @@
 #GROUP_ID=`echo $USER | cut -d':' -f2`
 echo "Creating user for $USER_NAME with $USER_HOME"
 #groupadd -r $USER_NAME --gid=$GROUP_ID
-USER_HOME=/home/$USER_NAME
+USER_HOME=/home/${USER_NAME}-cont
 useradd -rm -d $USER_HOME -s /bin/bash $USER_NAME
 
 if [ ! -f $USER_HOME/wm_startup.sh ] ; then

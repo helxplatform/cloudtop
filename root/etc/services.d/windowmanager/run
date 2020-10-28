@@ -3,10 +3,10 @@ echo "Starting window manager for user $USER_NAME on DISPLAY $DISPLAY ..."
 
 # first we wait for the vncserver
 until pids=$(pidof Xtigervnc)
-do   
+do
     sleep 1
 done
-export HOME=/home/$USER_NAME-cont
-USER_HOME=/home/$USER_NAME-cont
+export HOME=/home/$USER_NAME
+USER_HOME=/home/$USER_NAME
 export USER_HOME
 s6-setuidgid $USER_NAME $USER_HOME/wm_startup.sh > /tmp/wm_startup.log

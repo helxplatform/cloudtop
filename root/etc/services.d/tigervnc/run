@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv sh
-HOME=/home/$USER_NAME-cont
+HOME=/home/$USER_NAME
 export HOME
 echo "Starting tigervnc for user $USER_NAME with home = ${HOME} on DISPLAY $DISPLAY ..."
 echo "Starting tigervnc with depth $VNC_COL_DEPTH and geometry $VNC_RESOLUTION ..."

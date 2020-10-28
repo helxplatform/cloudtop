@@ -20,7 +20,8 @@ ENV HOME=/headless \
     VNC_PW="" \
     VNC_VIEW_ONLY=false \
     USER_NAME="" \
-    USER_HOME=""
+    USER_HOME="" \
+    USER_ID=1000
 
 ENV USER=$USERID
 
@@ -39,7 +40,7 @@ RUN curl -SLO "https://github.com/just-containers/s6-overlay/releases/download/v
     ${GUACAMOLE_HOME}/extensions
 
 # Copy in the static GUACAMOLE configuration files.
-ADD ./src/common/guacamole/guacamole.properties ${GUACAMOLE_HOME} 
+ADD ./src/common/guacamole/guacamole.properties ${GUACAMOLE_HOME}
 ADD ./src/common/guacamole/user-mapping-template.xml ${GUACAMOLE_HOME}
 ADD ./src/common/guacamole/add-user-template.sql ${GUACAMOLE_HOME}
 
@@ -108,7 +109,7 @@ RUN set -xe \
   && tar xvf data.tar.xz \
   && cp -v usr/share/java/mysql-connector-java-8.0.21.jar ${GUACAMOLE_HOME}/extensions-available/ \
   && cp -v usr/share/java/mysql-connector-java-8.0.21.jar ${GUACAMOLE_HOME}/lib/ 
-# && rm -rf postgresql-42.2.16.jar 
+# && rm -rf postgresql-42.2.16.jar
 
 ENV GUACAMOLE_HOME=/config/guacamole
 

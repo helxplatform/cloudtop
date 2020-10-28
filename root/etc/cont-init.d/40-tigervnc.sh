@@ -2,10 +2,6 @@
 #USER_ID=`echo $USER | cut -d':' -f1`
 #GROUP_ID=`echo $USER | cut -d':' -f2`
 
-#groupadd -r $USER_NAME --gid=$GROUP_ID
-# USER_HOME=/home/${USER_NAME}-cont
-# useradd -rm -d $USER_HOME -s /bin/bash $USER_NAME
-
 USER_HOME=/home/${USER_NAME}
 echo "Creating user for $USER_NAME with $USER_HOME and UID $USER_ID"
 useradd -m -d $USER_HOME -s /bin/bash -u $USER_ID -U $USER_NAME

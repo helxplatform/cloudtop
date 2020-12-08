@@ -19,6 +19,7 @@ ENV HOME=/headless \
     VNC_RESOLUTION=1980x1024 \
     VNC_PW="" \
     VNC_VIEW_ONLY=false \
+    TOMCAT_PORT=8080 \
     USER_NAME="" \
     USER_HOME="" \
     USER_ID=1000
@@ -43,6 +44,9 @@ RUN curl -SLO "https://github.com/just-containers/s6-overlay/releases/download/v
 ADD ./src/common/guacamole/guacamole.properties ${GUACAMOLE_HOME}
 ADD ./src/common/guacamole/user-mapping-template.xml ${GUACAMOLE_HOME}
 ADD ./src/common/guacamole/add-user-template.sql ${GUACAMOLE_HOME}
+
+# Copy in the TOMCAT server file as well
+ADD ./src/common/tomcat/server-template.xml ${GUACAMOLE_HOME}
 
 WORKDIR ${GUACAMOLE_HOME}
 

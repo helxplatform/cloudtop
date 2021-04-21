@@ -10,7 +10,7 @@ service mysql start
 mysql -e "create database guacamole_db"
 
 # Create the needed tables
-cd /app/guacamole/guacamole-auth-jdbc-1.2.0/mysql
+cd /app/guacamole/guacamole-auth-jdbc-1.3.0/mysql
 cat schema/*.sql | mysql -u root  guacamole_db
 
 # Execute the script to create the user and connections

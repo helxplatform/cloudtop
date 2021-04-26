@@ -6,7 +6,7 @@ import docker
 import pytest
 from subprocess import Popen, PIPE, CalledProcessError
 import shlex
-#  Example usage: pytest -q -s --image "heliumdatastage/cloudtop:latest" --user howard --passwd test
+#  Example usage: pytest -q -s --image "helxplatform/cloudtop:latest" --user howard --passwd test
 
 @pytest.fixture()
 def image (pytestconfig):

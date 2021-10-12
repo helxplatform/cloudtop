@@ -61,14 +61,6 @@ RUN apt-get update && apt-get install -y \
     libpulse-dev libssl-dev libvorbis-dev libwebp-dev \
     openssh-client sudo vim \
   && rm -rf /var/lib/apt/lists/*
-# mysql-common
-# removed: libfreerdp-dev
-
-# Install mysql
-# RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.19-1_all.deb
-# RUN dpkg -i mysql-apt-config_0.8.19-1_all.deb
-# RUN apt-get update
-# RUN apt-get install -y mysql-server
 
 # Link FreeRDP to where guac expects it to be
 RUN [ "$ARCH" = "armhf" ] && ln -s /usr/local/lib/freerdp /usr/lib/arm-linux-gnueabihf/freerdp || exit 0

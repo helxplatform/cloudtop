@@ -110,11 +110,11 @@ RUN set -xe \
 
 # Grab and install the needed mysql driver
 RUN set -xe \
-  && curl -SLO "http://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-J/mysql-connector-java_8.0.24-1debian9_all.deb" \
-  && ar x mysql-connector-java_8.0.24-1debian9_all.deb data.tar.xz \
+  && curl -SLO "http://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-J/mysql-connector-java_8.0.26-1debian11_all.deb" \
+  && ar x mysql-connector-java_8.0.26-1debian11_all.deb data.tar.xz \
   && tar xvf data.tar.xz \
-  && cp -v usr/share/java/mysql-connector-java-8.0.24.jar ${GUACAMOLE_HOME}/extensions-available/ \
-  && cp -v usr/share/java/mysql-connector-java-8.0.24.jar ${GUACAMOLE_HOME}/lib/ 
+  && cp -v usr/share/java/mysql-connector-java-8.0.26.jar ${GUACAMOLE_HOME}/extensions-available/ \
+  && cp -v usr/share/java/mysql-connector-java-8.0.26.jar ${GUACAMOLE_HOME}/lib/ 
 # && rm -rf postgresql-42.2.16.jar
 
 ENV GUACAMOLE_HOME=/config/guacamole

@@ -53,12 +53,13 @@ WORKDIR ${GUACAMOLE_HOME}
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
+    build-essential dbus-x11 default-mysql-server gettext\
     libcairo2-dev libjpeg62-turbo-dev libpng-dev \
     libossp-uuid-dev libavcodec-dev libavutil-dev \
-    libswscale-dev libfreerdp-dev libpango1.0-dev \
+    libswscale-dev libpango1.0-dev \
     libssh2-1-dev libtelnet-dev libvncserver-dev \
     libpulse-dev libssl-dev libvorbis-dev libwebp-dev \
-    mysql-server sudo openssh-client vim \
+    openssh-client sudo vim \
   && rm -rf /var/lib/apt/lists/*
 
 # Link FreeRDP to where guac expects it to be
@@ -109,11 +110,11 @@ RUN set -xe \
 
 # Grab and install the needed mysql driver
 RUN set -xe \
-  && curl -SLO "http://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-J/mysql-connector-java_8.0.24-1debian9_all.deb" \
-  && ar x mysql-connector-java_8.0.24-1debian9_all.deb data.tar.xz \
+  && curl -SLO "http://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-J/mysql-connector-java_8.0.26-1debian11_all.deb" \
+  && ar x mysql-connector-java_8.0.26-1debian11_all.deb data.tar.xz \
   && tar xvf data.tar.xz \
-  && cp -v usr/share/java/mysql-connector-java-8.0.24.jar ${GUACAMOLE_HOME}/extensions-available/ \
-  && cp -v usr/share/java/mysql-connector-java-8.0.24.jar ${GUACAMOLE_HOME}/lib/ 
+  && cp -v usr/share/java/mysql-connector-java-8.0.26.jar ${GUACAMOLE_HOME}/extensions-available/ \
+  && cp -v usr/share/java/mysql-connector-java-8.0.26.jar ${GUACAMOLE_HOME}/lib/ 
 # && rm -rf postgresql-42.2.16.jar
 
 ENV GUACAMOLE_HOME=/config/guacamole

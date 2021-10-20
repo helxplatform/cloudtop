@@ -4,7 +4,7 @@
 head -60 /app/guacamole/add-user-template.sql | envsubst > /app/guacamole/add-user.sql
 
 # become the postgres user
-service mysql start
+service mariadb start
 
 # create the guacamole database
 mysql -e "create database guacamole_db"

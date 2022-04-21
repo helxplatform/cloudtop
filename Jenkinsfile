@@ -24,6 +24,10 @@ pipeline {
     }
     stages {
         stage('Build') {
+            environment {
+                DOCKERHUB_CREDS = credentials("${env.REGISTRY_CREDS_ID_STR}")
+                DOCKER_REGISTRY = "${env.DOCKER_REGISTRY}"
+            }
             steps {
                 container('agent-docker') {
                     sh '''

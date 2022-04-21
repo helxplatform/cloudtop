@@ -27,7 +27,7 @@ pipeline {
             steps {
                 container('agent-docker') {
                     sh '''
-                    printenv
+                    echo docker build -t $DOCKERHUB_CREDS_USR/cloudtop:$BRANCH_NAME
                     '''
                 }
             }

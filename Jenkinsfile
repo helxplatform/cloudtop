@@ -23,7 +23,7 @@ pipeline {
         }
     }
     stages {
-        stage('Build')
+        stage('Build') {
             steps {
                 container('agent-docker') {
                     sh '''

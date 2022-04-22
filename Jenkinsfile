@@ -8,7 +8,7 @@ pipeline {
               spec:
                 containers:
                 - name: agent-docker
-                  image: helxplatform/agent-docker:latest
+                  image: wateim/agent-docker:latest
                   command: 
                   - cat
                   tty: true
@@ -40,7 +40,6 @@ pipeline {
             steps {
                 container('agent-docker') {
                     sh '''
-                    pip3 install pytest
                     pytest
                     '''
                 }

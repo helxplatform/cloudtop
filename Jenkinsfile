@@ -8,7 +8,7 @@ pipeline {
               spec:
                 containers:
                 - name: agent-docker
-                  image: wateim/agent-docker:latest
+                  image: wateim/jenkins-agent:latest
                   command: 
                   - cat
                   tty: true

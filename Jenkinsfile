@@ -40,7 +40,7 @@ pipeline {
             steps {
                 container('agent-docker') {
                     sh '''
-                    pip install pytest
+                    pip3 install pytest
                     pytest
                     '''
                 }

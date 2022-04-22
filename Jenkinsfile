@@ -39,12 +39,10 @@ pipeline {
         stage('Test') {
             steps {
                 container('agent-docker') {
-                    withPythonEnv('python3') {
-                       sh '''
-                       pip install pytest
-                       pytest
-                       '''
-                    }
+                    sh '''
+                    pip install pytest
+                    pytest
+                    '''
                 }
             }
         }

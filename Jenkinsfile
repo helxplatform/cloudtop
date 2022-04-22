@@ -41,6 +41,7 @@ pipeline {
                 container('agent-docker') {
                     sh '''
                     pytest
+                    pip install shlex
                     '''
                 }
             }

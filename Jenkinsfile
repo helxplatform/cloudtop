@@ -53,8 +53,8 @@ pipeline {
             steps {
                 container('agent-docker') {
                     sh '''
-                    echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin $DOCKER_REGISTRY
                     echo publish
+                    $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin $DOCKER_REGISTRY
                     docker push $DOCKERHUB_CREDS_USR/cloudtop:$BRANCH_NAME
                     '''
                 }

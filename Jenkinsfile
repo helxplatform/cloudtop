@@ -31,7 +31,7 @@ pipeline {
             steps {
                 container('agent-docker') {
                     sh '''
-                    echo docker build -t $DOCKERHUB_CREDS_USR/cloudtop:$BRANCH_NAME
+                    docker build -t $DOCKERHUB_CREDS_USR/cloudtop:$BRANCH_NAME
                     '''
                 }
             }
@@ -46,11 +46,6 @@ pipeline {
             }
         }
         stage('Publish') {
-            when {
-                anyOf {
-                    branch 'develop'; branch "master"; buildingTag()
-                }
-            }
             environment {
                 DOCKERHUB_CREDS = credentials("${env.REGISTRY_CREDS_ID_STR}")
                 DOCKER_REGISTRY = "${env.DOCKER_REGISTRY}"
@@ -60,6 +55,7 @@ pipeline {
                     sh '''
                     echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin $DOCKER_REGISTRY
                     echo publish
+                    docker push $DOCKERHUB_CREDS_USR/cloudtop:$BRANCH_NAME
                     '''
                 }
             }

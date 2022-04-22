@@ -31,7 +31,7 @@ pipeline {
             steps {
                 container('agent-docker') {
                     sh '''
-                    docker build -t $DOCKERHUB_CREDS_USR/cloudtop:$BRANCH_NAME
+                    docker build -t $DOCKERHUB_CREDS_USR/cloudtop:$BRANCH_NAME .
                     '''
                 }
             }

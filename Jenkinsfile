@@ -41,7 +41,6 @@ pipeline {
                 container('agent-docker') {
                     sh '''
                     pytest  -v --image "helxplatform/cloudtop:$BRANCH_NAME" --user howard --passwd test --port 9660
-                    pip install shlex
                     '''
                 }
             }

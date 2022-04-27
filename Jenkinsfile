@@ -59,6 +59,11 @@ pipeline {
                     '''
                 }
             }
+            post {
+                success {
+                   build propagate: false, job: cloudtop-napari/$BRANCH_NAME
+                }
+            }
         }
     }
 }

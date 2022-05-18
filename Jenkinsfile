@@ -28,8 +28,6 @@ pipeline {
             volumeMounts:
             - name: jenkins-cfg
               mountPath: /kaniko/.docker
-            - name: workspace
-              mountPath: /home/jenkins/agent
           volumes:
            - name: jenkins-cfg
              projected:
@@ -39,7 +37,7 @@ pipeline {
                    items:
                    - key: .dockerconfigjson
                      path: config.json
-           - name: workspace
+           - name: workspace-volume
              ephemeral:
                volumeClaimTemplate:
                  spec:

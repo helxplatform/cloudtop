@@ -29,7 +29,7 @@ pipeline {
             - name: jenkins-cfg
               mountPath: /kaniko/.docker
             - name: workspace
-              mountPath: /home/jenkins/workspace
+              mountPath: /home/jenkins/agent
           volumes:
            - name: jenkins-cfg
              projected:

@@ -29,8 +29,8 @@ pipeline {
             volumeMounts:
             - name: jenkins-cfg
               mountPath: /kaniko/.docker
-            - name: tmp
-              mountPath: /tmp
+            - name: home
+              mountPath: /home
             workingDir: /usr/local/workspace
           volumes:
            - name: jenkins-cfg
@@ -41,7 +41,7 @@ pipeline {
                    items:
                    - key: .dockerconfigjson
                      path: config.json
-           - name: tmp
+           - name: home
              ephemeral:
                volumeClaimTemplate:
                  spec:

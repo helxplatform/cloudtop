@@ -45,8 +45,14 @@ pipeline {
                    - key: .dockerconfigjson
                      path: config.json
            - name: workdir
-             emptyDir:
-               sizeLimit: 10G
+             ephemeral:
+               volumeClaimTemplate:
+                 spec:
+                   accessModes: [ "ReadWriteOnce" ]
+                   storageClassName: nvme-ephemeral
+                   resources:
+                     requests:
+                       storage: 10Gi
       '''
     }
   }

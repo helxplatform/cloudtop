@@ -12,8 +12,8 @@ pipeline {
           - name: jnlp
             volumeMounts:
             - name: workdir
-              mountPath: /usr/local/work
-            workingDir: /usr/local/work
+              mountPath: /usr/local/workspace
+            workingDir: /usr/local/workspace
           - name: kaniko-agent
             command:
             - /busybox/cat
@@ -27,14 +27,14 @@ pipeline {
               limits:
                 cpu: 1
                 ephemeral-storage: "2G"
-                memory: 4G
+                memory: 16G
             tty: true
             volumeMounts:
             - name: jenkins-cfg
               mountPath: /kaniko/.docker
             - name: workdir
-              mountPath: /usr/local/work
-            workingDir: /usr/local/work
+              mountPath: /usr/local/workspace
+            workingDir: /usr/local/workspace
           volumes:
            - name: jenkins-cfg
              projected:

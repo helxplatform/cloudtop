@@ -10,6 +10,7 @@ pipeline {
         spec:
           containers:
           - name: jnlp
+            volumeMounts:
             - name: workspace
               mountPath: /home/jenkins/agent
           - name: kaniko

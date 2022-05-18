@@ -10,10 +10,7 @@ pipeline {
         spec:
           containers:
           - name: jnlp
-            volumeMounts:
-            - name: workdir
-              mountPath: /usr/local/workspace
-            workingDir: /usr/local/workspace
+            workingDir: /usr/local/work
           - name: kaniko-agent
             command:
             - /busybox/cat
@@ -32,8 +29,8 @@ pipeline {
             volumeMounts:
             - name: jenkins-cfg
               mountPath: /kaniko/.docker
-            - name: workdir
-              mountPath: /usr/local/workspace
+            - name: tmp
+              mountPath: /tmp
             workingDir: /usr/local/workspace
           volumes:
            - name: jenkins-cfg
@@ -44,7 +41,7 @@ pipeline {
                    items:
                    - key: .dockerconfigjson
                      path: config.json
-           - name: workdir
+           - name: tmp
              ephemeral:
                volumeClaimTemplate:
                  spec:

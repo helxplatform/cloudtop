@@ -29,7 +29,7 @@ pipeline {
                  name: rencibuild-imagepull-secret
                  items:
                  - key: .dockerconfigjson
-                 path: config.json
+                   path: config.json
       '''
     }
   }

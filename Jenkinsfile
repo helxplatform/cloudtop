@@ -10,7 +10,10 @@ pipeline {
         spec:
           containers:
           - name: jnlp
-            workingDir: /tmp/jenkins
+            volumeMounts:
+            - name: workdir
+              mountPath: /usr/local/work
+            workingDir: /usr/local/work
           - name: kaniko-agent
             command:
             - /busybox/cat
@@ -29,7 +32,9 @@ pipeline {
             volumeMounts:
             - name: jenkins-cfg
               mountPath: /kaniko/.docker
-            workingDir: /tmp/jenkins
+            - name: workdir
+              mountPath: /usr/local/work
+            workingDir: /usr/local/work
           volumes:
            - name: jenkins-cfg
              projected:
@@ -39,6 +44,9 @@ pipeline {
                    items:
                    - key: .dockerconfigjson
                      path: config.json
+           - name: workdir
+             emptyDir:
+               sizeLimit: 10G
       '''
     }
   }

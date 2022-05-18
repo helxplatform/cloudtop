@@ -12,15 +12,24 @@ pipeline {
           - name: jnlp
             workingDir: /tmp/jenkins
           - name: kaniko-agent
-            workingDir: /tmp/jenkins
-            image: gcr.io/kaniko-project/executor:debug
-            imagePullPolicy: Always
             command:
             - /busybox/cat
+            image: gcr.io/kaniko-project/executor:debug
+            imagePullPolicy: Always
+            resources:
+              requests:
+                cpu: 1
+                ephemeral-storage: "1G"
+                memory: 4G
+              limits:
+                cpu: 1
+                ephemeral-storage: "2G"
+                memory: 4G
             tty: true
             volumeMounts:
             - name: jenkins-cfg
               mountPath: /kaniko/.docker
+            workingDir: /tmp/jenkins
           volumes:
            - name: jenkins-cfg
              projected:

@@ -10,8 +10,8 @@ pipeline {
         spec:
           containers:
           - name: jnlp
-            workingDir: /usr/local/work
-          - name: kaniko-agent
+            workingDir: /usr/local/workspace
+          - name: kaniko
             command:
             - /busybox/cat
             image: gcr.io/kaniko-project/executor:debug
@@ -61,7 +61,7 @@ pipeline {
         DOCKER_REGISTRY = "${env.DOCKER_REGISTRY}"
       }
       steps {
-        container(name: 'kaniko-agent', shell: '/busybox/sh') {
+        container(name: 'kaniko', shell: '/busybox/sh') {
           sh '''
           /kaniko/executor --context . --verbosity debug --destination helxplatform/cloudtop:$BRANCH_NAME
           '''

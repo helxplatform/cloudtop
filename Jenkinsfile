@@ -52,7 +52,7 @@ pipeline {
                    storageClassName: nvme-ephemeral
                    resources:
                      requests:
-                       storage: 10Gi
+                       storage: 7G
       '''
     }
   }

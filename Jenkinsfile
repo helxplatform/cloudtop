@@ -26,10 +26,10 @@ pipeline {
              projected:
                sources:
                - secret:
-                 name: rencibuild-imagepull-secret
-                 items:
-                 - key: .dockerconfigjson
-                   path: config.json
+                   name: rencibuild-imagepull-secret
+                   items:
+                   - key: .dockerconfigjson
+                     path: config.json
       '''
     }
   }

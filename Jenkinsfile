@@ -25,7 +25,7 @@ pipeline {
                 memory: 4G
               limits:
                 cpu: 1
-                ephemeral-storage: "2G"
+                ephemeral-storage: "20G"
                 memory: 16G
             tty: true
             volumeMounts:

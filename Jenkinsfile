@@ -47,6 +47,7 @@ pipeline {
                volumeClaimTemplate:
                  spec:
                    accessModes: [ "ReadWriteOnce" ]
+                   storageClassName: nvme-ephemeral
                    resources:
                      requests:
                        storage: 7G

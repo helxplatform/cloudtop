@@ -156,7 +156,7 @@ RUN $INST_SCRIPTS/install_custom_fonts.sh
 RUN $INST_SCRIPTS/tigervnc.sh
 
 ### Install firefox and chrome browser
-RUN $INST_SCRIPTS/firefox.sh
+#RUN $INST_SCRIPTS/firefox.sh
 
 ### Install xfce UI
 RUN $INST_SCRIPTS/xfce_ui.sh

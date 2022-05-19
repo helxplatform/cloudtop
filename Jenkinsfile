@@ -33,6 +33,13 @@ pipeline {
               mountPath: /kaniko/.docker
             - name: workspace
               mountPath: /home/jenkins/agent
+          initContainers:
+          - name init:
+            image: busybox:1.28
+            command: ['chmod', '777', '/workspace']
+            volumeMounts:
+            - name: workspace
+              mountPath: /workspace
           volumes:
            - name: jenkins-cfg
              projected:

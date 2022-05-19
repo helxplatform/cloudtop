@@ -34,7 +34,7 @@ pipeline {
             - name: workspace
               mountPath: /home/jenkins/agent
           initContainers:
-          - name init:
+          - name: init
             image: busybox:1.28
             command: ['chmod', '777', '/workspace']
             volumeMounts:

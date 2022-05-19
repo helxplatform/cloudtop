@@ -52,15 +52,29 @@ ADD ./src/common/tomcat/server-template.xml ${GUACAMOLE_HOME}
 WORKDIR ${GUACAMOLE_HOME}
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential dbus-x11 default-mysql-server gettext\
-    libcairo2-dev libjpeg62-turbo-dev libpng-dev \
-    libossp-uuid-dev libavcodec-dev libavutil-dev \
-    libswscale-dev libpango1.0-dev \
-    libssh2-1-dev libtelnet-dev libvncserver-dev \
-    libpulse-dev libssl-dev libvorbis-dev libwebp-dev \
-    openssh-client sudo vim \
-  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get install -y \
+  build-essential \
+  libcairo2-dev \
+  libjpeg62-turbo-dev \
+  libpng-dev \
+  libtool-bin \
+  libossp-uuid-dev \
+  libvncserver-dev \
+  freerdp2-dev \
+  libssh2-1-dev \
+  libtelnet-dev \
+  libwebsockets-dev \
+  libpulse-dev \
+  libvorbis-dev \
+  libwebp-dev libssl-dev \
+  libpango1.0-dev \
+  libswscale-dev \
+  libavcodec-dev \
+  libavutil-dev \
+  libavformat-dev
+
+# RUN rm -rf /var/lib/apt/lists/*
 
 # Link FreeRDP to where guac expects it to be
 RUN [ "$ARCH" = "armhf" ] && ln -s /usr/local/lib/freerdp /usr/lib/arm-linux-gnueabihf/freerdp || exit 0

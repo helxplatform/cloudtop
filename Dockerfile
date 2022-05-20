@@ -1,4 +1,4 @@
-FROM library/tomcat:9-jre8 as tomcat
+FROM library/tomcat:9-jre8-buster as tomcat
 # Env for Guacamole
 ENV ARCH=amd64 \
   GUAC_VER=1.3.0 \
@@ -159,9 +159,9 @@ RUN $INST_SCRIPTS/tigervnc.sh
 RUN $INST_SCRIPTS/firefox.sh
 
 ### Install xfce UI
-#RUN $INST_SCRIPTS/xfce_ui.sh
-RUN apt-get install systemd -y
-RUN apt install task-xfce-desktop -y
+RUN $INST_SCRIPTS/xfce_ui.sh
+#RUN apt-get install systemd -y
+#RUN apt install task-xfce-desktop -y
 ADD ./src/common/xfce/ $HOME/
 
 ADD ./src/common/scripts $STARTUPDIR

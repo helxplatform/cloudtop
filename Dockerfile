@@ -72,7 +72,7 @@ RUN apt-get install -y \
   libpulse-dev \
   libssl-dev \
   libvorbis-dev l\
-  ibwebp-dev \
+  libwebp-dev \
   openssh-client \
   sudo \
   vim

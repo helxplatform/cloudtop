@@ -159,7 +159,9 @@ RUN $INST_SCRIPTS/tigervnc.sh
 RUN $INST_SCRIPTS/firefox.sh
 
 ### Install xfce UI
-RUN $INST_SCRIPTS/xfce_ui.sh
+#RUN $INST_SCRIPTS/xfce_ui.sh
+RUN apt-get install systemd -y
+RUN apt install task-xfce-desktop -y
 ADD ./src/common/xfce/ $HOME/
 
 ADD ./src/common/scripts $STARTUPDIR

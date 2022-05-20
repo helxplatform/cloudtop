@@ -55,24 +55,27 @@ WORKDIR ${GUACAMOLE_HOME}
 RUN apt-get update
 RUN apt-get install -y \
   build-essential \
+  dbus-x11 \
+  default-mysql-server \
+  gettext \
   libcairo2-dev \
   libjpeg62-turbo-dev \
   libpng-dev \
-  libtool-bin \
   libossp-uuid-dev \
-  libvncserver-dev \
-  freerdp2-dev \
-  libssh2-1-dev \
-  libtelnet-dev \
-  libwebsockets-dev \
-  libpulse-dev \
-  libvorbis-dev \
-  libwebp-dev libssl-dev \
-  libpango1.0-dev \
-  libswscale-dev \
   libavcodec-dev \
   libavutil-dev \
-  libavformat-dev
+  libswscale-dev \
+  libpango1.0-dev \
+  libssh2-1-dev \
+  libtelnet-dev \
+  libvncserver-dev \
+  libpulse-dev \
+  libssl-dev \
+  libvorbis-dev l\
+  ibwebp-dev \
+  openssh-client \
+  sudo \
+  vim
 
 # RUN rm -rf /var/lib/apt/lists/*
 

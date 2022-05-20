@@ -159,8 +159,8 @@ RUN $INST_SCRIPTS/tigervnc.sh
 RUN $INST_SCRIPTS/firefox.sh
 
 ### Install xfce UI
-#RUN $INST_SCRIPTS/xfce_ui.sh
-#ADD ./src/common/xfce/ $HOME/
+RUN $INST_SCRIPTS/xfce_ui.sh
+ADD ./src/common/xfce/ $HOME/
 
 ADD ./src/common/scripts $STARTUPDIR
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME

@@ -3,4 +3,5 @@
 set -e
 
 echo "Install Xfce4 UI components"
+apt-get install systemd -y
 apt install task-xfce-desktop -y

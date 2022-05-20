@@ -71,7 +71,7 @@ RUN apt-get install -y \
   libvncserver-dev \
   libpulse-dev \
   libssl-dev \
-  libvorbis-dev l\
+  libvorbis-dev \
   libwebp-dev \
   openssh-client \
   sudo \

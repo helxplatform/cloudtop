@@ -1,4 +1,4 @@
-FROM library/tomcat:9.0.63-jre8-openjdk-buster as tomcat
+FROM library/tomcat:9-jre8 as tomcat
 # Env for Guacamole
 ENV ARCH=amd64 \
   GUAC_VER=1.3.0 \

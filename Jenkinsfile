@@ -2,16 +2,16 @@ pipeline {
   agent {
     label 'agent-docker'
   }
-  stage('Build') {
-    steps {
-      container('agent-docker') {
-        sh '''
-        docker build -t helxplatform/cloudtop:$BRANCH_NAME .
-        '''
+  stages {
+    stage('Build') {
+      steps {
+        container('agent-docker') {
+          sh '''
+          docker build -t helxplatform/cloudtop:$BRANCH_NAME .
+          '''
+        }
       }
     }
-  }
-  stages {
     stage('Test') {
       steps {
         container('agent-docker') {

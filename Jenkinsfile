@@ -5,11 +5,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        container('agent-docker') {
-          sh '''
-          docker build -t helxplatform/cloudtop:$BRANCH_NAME .
-          '''
-        }
+        sh '''
+        docker build -t helxplatform/cloudtop:$BRANCH_NAME .
+        '''
       }
     }
     stage('Test') {

@@ -12,11 +12,9 @@ pipeline {
     }
     stage('Test') {
       steps {
-        container('agent-docker') {
-          sh '''
-          pytest  -v --image "helxplatform/cloudtop:$BRANCH_NAME" --user howard --passwd test --port 9660
-          '''
-        }
+        sh '''
+        pytest  -v --image "helxplatform/cloudtop:$BRANCH_NAME" --user howard --passwd test --port 9660
+        '''
       }
     }
     stage('Publish') {
@@ -25,13 +23,11 @@ pipeline {
         DOCKER_REGISTRY = "${env.DOCKER_REGISTRY}"
       }
       steps {
-        container('agent-docker') {
-          sh '''
-          echo publish
-          echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin $DOCKER_REGISTRY
-          docker push helxplatform/cloudtop:$BRANCH_NAME
-          '''
-        }
+        sh '''
+        echo publish
+        echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin $DOCKER_REGISTRY
+        docker push helxplatform/cloudtop:$BRANCH_NAME
+        '''
       }
   //  post {
   //    success {

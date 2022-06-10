@@ -15,7 +15,7 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-        docker build -t $IMAGE_NAME:$TAG1 -t $TAG2 .
+        docker build -t $IMAGE_NAME:$TAG1 -t $IMAGE_NAME:$TAG2 .
         '''
       }
     }

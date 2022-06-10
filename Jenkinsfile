@@ -2,18 +2,27 @@ pipeline {
   agent {
     label 'agent-docker'
   }
+  environment {
+    PATH = "/busybox:/kaniko:/ko-app/:$PATH"
+    REG_OWNER="helxplatform"
+    REG_APP="cloudtop"
+    COMMIT_HASH="${sh(script:"git rev-parse --short HEAD", returnStdout: true).trim()}"
+    IMAGE_NAME="${REG_OWNER}/${REG_APP}"
+    TAG1="$BRANCH_NAME"
+    TAG2="$COMMIT_HASH"
+  }
   stages {
     stage('Build') {
       steps {
         sh '''
-        docker build -t helxplatform/cloudtop:$BRANCH_NAME .
+        docker build -t $IMAGE_NAME:$TAG1 -t $TAG2 .
         '''
       }
     }
     stage('Test') {
       steps {
         sh '''
-        pytest  -v --image "helxplatform/cloudtop:$BRANCH_NAME" --user howard --passwd test --port 9660
+        pytest  -v --image "$IMAGE_NAME:$BRANCH_NAME" --user howard --passwd test --port 9660
         '''
       }
     }
@@ -26,7 +35,8 @@ pipeline {
         sh '''
         echo publish
         echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin $DOCKER_REGISTRY
-        docker push helxplatform/cloudtop:$BRANCH_NAME
+        docker push $IMAGE_NAME:$TAG1
+        docker push $IMAGE_NAME:$TAG2
         '''
       }
   //  post {

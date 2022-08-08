@@ -28,7 +28,7 @@ spec:
     tty: true
     volumeMounts:
     - name: kaniko
-      mountPath: /kaniko
+      mountPath: /kaniko-data
     - name: jenkins-docker-cfg
       mountPath: /kaniko/.docker
   volumes:
@@ -65,7 +65,7 @@ spec:
                     --dockerfile `pwd`/Dockerfile \
                     --context `pwd`/ \
                     --verbosity debug \
-                    --kaniko-dir /kaniko \
+                    --kaniko-dir /kaniko-data \
                     --destination $REGISTRY$IMAGE_NAME:$TAG1 \
                     --destination $REGISTRY$IMAGE_NAME:$TAG2
                 '''

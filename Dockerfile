@@ -46,8 +46,6 @@ ADD ./src/common/guacamole/add-user-template.sql ${GUACAMOLE_HOME}
 # Copy in the TOMCAT server file as well
 ADD ./src/common/tomcat/server-template.xml ${GUACAMOLE_HOME}
 
-ENV PATH="$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/bin:$PATH"
-RUN mkdir -p ${GUACAMOLE_HOME}
 WORKDIR ${GUACAMOLE_HOME}
 
 # Install dependencies

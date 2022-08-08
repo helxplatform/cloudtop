@@ -27,10 +27,7 @@ ENV HOME=/headless \
 
 ENV USER=$USERID
 
-RUN mkdir $HOME
-RUN mkdir $STARTUPDIR
-RUN mkdir $INST_SCRIPTS
-RUN mkdir -p /usr/local/renci/bin
+RUN mkdir -p $HOME && mkdir -p $STARTUPDIR && mkdir -p $INST_SCRIPTS && mkdir -p /usr/local/renci/bin
 
 # Apply the s6-overlay
 RUN curl -SLO "https://github.com/just-containers/s6-overlay/releases/download/v1.20.0.0/s6-overlay-${ARCH}.tar.gz" \
@@ -49,6 +46,7 @@ ADD ./src/common/guacamole/add-user-template.sql ${GUACAMOLE_HOME}
 # Copy in the TOMCAT server file as well
 ADD ./src/common/tomcat/server-template.xml ${GUACAMOLE_HOME}
 
+RUN mkdir -p ${GUACAMOLE_HOME}
 WORKDIR ${GUACAMOLE_HOME}
 
 # Install dependencies

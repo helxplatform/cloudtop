@@ -27,10 +27,10 @@ spec:
     - /busybox/cat
     tty: true
     volumeMounts:
-    - name: kaniko
-      mountPath: /kaniko-data
+    # - name: kaniko
+    #   mountPath: /kaniko-data
     - name: jenkins-docker-cfg
-      mountPath: /kaniko-data/.docker
+      mountPath: /kaniko/.docker
   volumes:
   - name: jenkins-docker-cfg
     projected:
@@ -40,9 +40,9 @@ spec:
           items:
             - key: .dockerconfigjson
               path: config.json
-  - name: kaniko
-    persistentVolumeClaim:
-      claimName: kaniko-pvc
+  # - name: kaniko
+  #   persistentVolumeClaim:
+  #     claimName: kaniko-pvc
 """
         }
     }
@@ -65,7 +65,7 @@ spec:
                     --dockerfile `pwd`/Dockerfile \
                     --context `pwd`/ \
                     --verbosity debug \
-                    --kaniko-dir /kaniko-data \
+                    --kaniko-dir /kaniko \
                     --destination $REGISTRY$IMAGE_NAME:$TAG1 \
                     --destination $REGISTRY$IMAGE_NAME:$TAG2
                 '''

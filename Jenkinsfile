@@ -30,7 +30,7 @@ spec:
     - name: kaniko
       mountPath: /kaniko-data
     - name: jenkins-docker-cfg
-      mountPath: /kaniko/.docker
+      mountPath: /kaniko-data/.docker
   volumes:
   - name: jenkins-docker-cfg
     projected:

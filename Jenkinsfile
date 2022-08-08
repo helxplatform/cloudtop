@@ -112,6 +112,7 @@ spec:
   //      build propagate: false, job: "helxplatform/cloudtop-ohif/${env.BRANCH_NAME}"
   //    }
   //  }
-    }
+
+    // }
   }
 }

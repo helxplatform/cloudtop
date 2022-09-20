@@ -23,9 +23,9 @@ ENV HOME=/headless \
     TOMCAT_PORT=8080 \
     USER_NAME="" \
     USER_HOME="" \
-    USER_ID=1000
+    USER_ID=30000
 
-ENV USER=$USERID
+ENV USER=$USER_ID
 
 RUN mkdir -p $HOME && mkdir -p $STARTUPDIR && mkdir -p $INST_SCRIPTS && mkdir -p /usr/local/renci/bin
 

@@ -19,7 +19,7 @@ spec:
       image: gcr.io/kaniko-project/executor:debug
       imagePullPolicy: IfNotPresent
       command:
-      - /busybox/cat
+      - /ubuntu/cat
       tty: true
       volumeMounts:
       - name: jenkins-docker-cfg
@@ -35,7 +35,7 @@ spec:
         }
     }
     environment {
-        PATH = "/busybox:/kaniko:/ko-app/:$PATH"
+        PATH = "/ubuntu:/kaniko:/ko-app/:$PATH"
         DOCKERHUB_CREDS = credentials("${env.CONTAINERS_REGISTRY_CREDS_ID_STR}")
         REGISTRY = "${env.REGISTRY}"
         REG_OWNER="helxplatform"
@@ -46,12 +46,12 @@ spec:
     stages {
         stage('Build') {
             steps {
-                script {
-                    container(name: 'go', shell: '/bin/bash') {
-                        if (BRANCH_NAME.equals("master")) {
-                            CCV = go.ccv()
-                        }
-                    }
+                // script {
+                //     container(name: 'go', shell: '/bin/bash') {
+                //         if (BRANCH_NAME.equals("master")) {
+                //             CCV = go.ccv()
+                //         }
+                //     }
                     container(name: 'kaniko', shell: '/busybox/sh') {
                         def tagsToPush = ["$IMAGE_NAME:$BRANCH_NAME", "$IMAGE_NAME:$COMMIT_HASH"]
                         if (CCV != null && !CCV.trim().isEmpty() && BRANCH_NAME.equals("master")) {

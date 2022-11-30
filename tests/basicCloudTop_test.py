@@ -113,7 +113,7 @@ def test_cloudtop_glx(image, passwd, port, user):
 
    return returnVal
 
-def main():
+def console_main():
 
    image = image()
    user = user()

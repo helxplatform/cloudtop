@@ -22,7 +22,7 @@ pipeline {
     stage('Test') {
       steps {
         sh '''
-        pytest  -v --image "$IMAGE_NAME:$BRANCH_NAME" --user howard --passwd test --port 9660
+        python -m pytest  -v --image "$IMAGE_NAME:$BRANCH_NAME" --user howard --passwd test --port 9660
         '''
       }
     }

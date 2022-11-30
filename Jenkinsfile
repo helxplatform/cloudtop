@@ -9,45 +9,26 @@ metadata:
 spec:
   containers:
   - name: jnlp
-    workingDir: /home/jenkins/agent/
+    workingDir: /home/jenkins/agent
   - name: kaniko
-    workingDir: /home/jenkins/agent/
+    workingDir: /home/jenkins/agent
     image: gcr.io/kaniko-project/executor:latest
     imagePullPolicy: Always
     resources:
       requests:
         cpu: "512m"
         memory: "1024Mi"
-        ephemeral-storage: "2816Mi"
+        ephemeral-storage: "4Gi"
       limits:
         cpu: "1024m"
         memory: "2048Mi"
-        ephemeral-storage: "3Gi"
+        ephemeral-storage: "8Gi"
     command:
     - /busybox/cat
     tty: true
     volumeMounts:
-    // - name: kaniko
-    //   mountPath: /kaniko-data
     - name: jenkins-docker-cfg
       mountPath: /kaniko/.docker
-    - name: kaniko-cache
-      mountPath: 
-  volumes:
-  - name: jenkins-docker-cfg
-    projected:
-      sources:
-      - secret:
-          name: rencibuild-imagepull-secret
-          items:
-            - key: .dockerconfigjson
-              path: config.json
-  - name: kaniko-cache
-    emptyDir:
-      sizeLimit: 3Gi
-  // - name: kaniko
-  //   persistentVolumeClaim:
-  //   claimName: kaniko-pvc
 """
       }  
   }

@@ -18,8 +18,6 @@ spec:
       workingDir: /home/jenkins/agent
       image: gcr.io/kaniko-project/executor:debug
       imagePullPolicy: IfNotPresent
-      command:
-      - /ubuntu/cat
       tty: true
       volumeMounts:
       - name: jenkins-docker-cfg
@@ -35,7 +33,7 @@ spec:
         }
     }
     environment {
-        PATH = "/ubuntu:/kaniko:/ko-app/:$PATH"
+        PATH = "/kaniko:/ko-app/:$PATH"
         DOCKERHUB_CREDS = credentials("${env.CONTAINERS_REGISTRY_CREDS_ID_STR}")
         REGISTRY = "${env.REGISTRY}"
         REG_OWNER="helxplatform"

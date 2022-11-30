@@ -49,8 +49,8 @@ spec:
   //   persistentVolumeClaim:
   //   claimName: kaniko-pvc
 """
-         }
-    }
+      }  
+  }
   environment {
     PATH = "/busybox:/kaniko:/ko-app/:$PATH"
     REG_OWNER="helxplatform"
@@ -75,6 +75,7 @@ spec:
             }
           }
         }
+  }
 
 // pipeline {
 //   agent {

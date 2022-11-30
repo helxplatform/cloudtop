@@ -16,7 +16,7 @@ spec:
       workingDir: /home/jenkins/agent
     - name: kaniko
       workingDir: /home/jenkins/agent
-      image: gcr.io/kaniko-project/executor:latest
+      image: gcr.io/kaniko-project/executor:debug
       imagePullPolicy: IfNotPresent
       command:
       - /busybox/cat

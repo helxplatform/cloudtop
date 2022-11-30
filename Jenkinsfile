@@ -1,7 +1,3 @@
-library 'pipeline-utils@master'
-
-CCV = ""
-
 pipeline {
   agent {
     kubernetes {
@@ -12,61 +8,73 @@ metadata:
   name: kaniko
 spec:
   containers:
-    - name: jnlp
-      workingDir: /home/jenkins/agent
-    - name: kaniko
-      workingDir: /home/jenkins/agent
-      image: gcr.io/kaniko-project/executor:debug
-      imagePullPolicy: IfNotPresent
-      tty: true
-      volumeMounts:
-      - name: jenkins-docker-cfg
-        mountPath: /kaniko/.docker
+  - name: jnlp
+    workingDir: /home/jenkins/agent/
+  - name: kaniko
+    workingDir: /home/jenkins/agent/
+    image: gcr.io/kaniko-project/executor:latest
+    imagePullPolicy: Always
+    resources:
+      requests:
+        cpu: "512m"
+        memory: "1024Mi"
+        ephemeral-storage: "2816Mi"
+      limits:
+        cpu: "1024m"
+        memory: "2048Mi"
+        ephemeral-storage: "3Gi"
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+    // - name: kaniko
+    //   mountPath: /kaniko-data
+    - name: jenkins-docker-cfg
+      mountPath: /kaniko/.docker
+    - name: kaniko-cache
+      mountPath: 
   volumes:
   - name: jenkins-docker-cfg
-    secret:
-      secretName: rencibuild-imagepull-secret
-      items:
-      - key: .dockerconfigjson
-        path: config.json
+    projected:
+      sources:
+      - secret:
+          name: rencibuild-imagepull-secret
+          items:
+            - key: .dockerconfigjson
+              path: config.json
+  - name: kaniko-cache
+    emptyDir:
+      sizeLimit: 3Gi
+  // - name: kaniko
+  //   persistentVolumeClaim:
+  //   claimName: kaniko-pvc
 """
-        }
+         }
     }
-    environment {
-        PATH = "/kaniko:/ko-app/:$PATH"
-        DOCKERHUB_CREDS = credentials("${env.CONTAINERS_REGISTRY_CREDS_ID_STR}")
-        REGISTRY = "${env.REGISTRY}"
-        REG_OWNER="helxplatform"
-        REPO_NAME="cloudtop"
-        COMMIT_HASH="${sh(script:"git rev-parse --short HEAD", returnStdout: true).trim()}"
-        IMAGE_NAME="${REGISTRY}/${REG_OWNER}/${REPO_NAME}"
-    }
-    stages {
-        stage('Build') {
-            steps {
-                // script {
-                //     container(name: 'go', shell: '/bin/bash') {
-                //         if (BRANCH_NAME.equals("master")) {
-                //             CCV = go.ccv()
-                //         }
-                //     }
-                    container(name: 'kaniko', shell: '/busybox/sh') {
-                        def tagsToPush = ["$IMAGE_NAME:$BRANCH_NAME", "$IMAGE_NAME:$COMMIT_HASH"]
-                        if (CCV != null && !CCV.trim().isEmpty() && BRANCH_NAME.equals("master")) {
-                            tagsToPush.add("$IMAGE_NAME:$CCV")
-                            tagsToPush.add("$IMAGE_NAME:latest")
-                        } else {
-                            def now = new Date()
-                            def currTimestamp = now.format("yyyy-MM-dd'T'HH.mm'Z'", TimeZone.getTimeZone('UTC'))
-                            tagsToPush.add("$IMAGE_NAME:$currTimestamp")
-                        }
-                        kaniko.buildAndPush("./Dockerfile", tagsToPush)
-                    }
-                }
+  environment {
+    PATH = "/busybox:/kaniko:/ko-app/:$PATH"
+    REG_OWNER="helxplatform"
+    REG_APP="cloudtop"
+    COMMIT_HASH="${sh(script:"git rev-parse --short HEAD", returnStdout: true).trim()}"
+    IMAGE_NAME="${REG_OWNER}/${REG_APP}"
+    TAG1="$BRANCH_NAME"
+    TAG2="$COMMIT_HASH"
+    REGISTRY=""
+  }
+  stages {
+    stage('Build Image and Push to Registry') {
+          steps {
+            container(name: 'kaniko', shell: '/busybox/sh') {
+                sh '''#!/busybox/sh
+                env >> env.txt
+                cat env.txt
+                ls /bin
+                ls /sbin
+                ls /etc
+                '''
             }
+          }
         }
-    }
-}
 
 // pipeline {
 //   agent {

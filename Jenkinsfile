@@ -1,5 +1,7 @@
 library 'pipeline-utils@master'
 
+CCV=""
+
 pipeline {
   agent {
     kubernetes {
@@ -44,11 +46,11 @@ spec:
         }
     }
      environment {
-    //     PATH = "/busybox:/kaniko:/ko-app/:$PATH"
-    //     DOCKERHUB_CREDS = credentials("${env.CONTAINERS_REGISTRY_CREDS_ID_STR}")
-    //     REGISTRY = "${env.REGISTRY}"
-    //     REG_OWNER="helxplatform"
-    //     REPO_NAME="cloudtop"
+        PATH = "/busybox:/kaniko:/ko-app/:$PATH"
+        DOCKERHUB_CREDS = credentials("${env.CONTAINERS_REGISTRY_CREDS_ID_STR}")
+        REGISTRY = "${env.REGISTRY}"
+        REG_OWNER="helxplatform"
+        REPO_NAME="cloudtop"
         COMMIT_HASH="${sh(script:"git rev-parse --short HEAD", returnStdout: true).trim()}"
         IMAGE_NAME="${REGISTRY}/${REG_OWNER}/${REPO_NAME}"
     }

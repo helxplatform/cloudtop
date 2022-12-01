@@ -28,7 +28,7 @@ spec:
         memory: "2048Mi"
         ephemeral-storage: "8Gi"
     command:
-    - /busybox/cat
+    - /bin/bash
     tty: true
     volumeMounts:
     - name: jenkins-docker-cfg
@@ -60,7 +60,7 @@ spec:
         }
     }
     environment {
-        PATH = "/busybox:/kaniko:/ko-app/:$PATH"
+        PATH = "/ubuntu:/kaniko:/ko-app/:$PATH"
         DOCKERHUB_CREDS = credentials("${env.CONTAINERS_REGISTRY_CREDS_ID_STR}")
         REGISTRY = "${env.REGISTRY}"
         REG_OWNER="helxplatform"
@@ -77,7 +77,7 @@ spec:
                             CCV = go.ccv()
                         }
                     }
-                    container(name: 'kaniko', shell: '/busybox/sh') {
+                    container(name: 'kaniko', shell: '/bin/bash') {
                         def tagsToPush = ["$IMAGE_NAME:$BRANCH_NAME", "$IMAGE_NAME:$COMMIT_HASH"]
                         if (CCV != null && !CCV.trim().isEmpty() && BRANCH_NAME.equals("master")) {
                             tagsToPush.add("$IMAGE_NAME:$CCV")

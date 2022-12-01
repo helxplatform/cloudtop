@@ -60,7 +60,7 @@ spec:
         }
     }
     environment {
-        PATH = "/bin/bash:/kaniko:/ko-app/:$PATH"
+        PATH = "/kaniko:/ko-app/:$PATH"
         DOCKERHUB_CREDS = credentials("${env.CONTAINERS_REGISTRY_CREDS_ID_STR}")
         REGISTRY = "${env.REGISTRY}"
         REG_OWNER="helxplatform"

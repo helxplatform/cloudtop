@@ -23,9 +23,9 @@ ENV HOME=/headless \
     TOMCAT_PORT=8080 \
     USER_NAME="" \
     USER_HOME="" \
-    USER_ID=1000
+    USER_ID=50555
 
-ENV USER=$USERID
+ENV USER=$USER_ID
 
 RUN mkdir $HOME
 RUN mkdir $STARTUPDIR

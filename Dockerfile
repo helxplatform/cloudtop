@@ -27,7 +27,7 @@ ENV HOME=/headless \
 
 ENV USER=$USER_ID
 
-RUN groupadd -g 1136 fileperms
+RUN groupadd -g 1136 fileperms && cat /etc/passwd | grep main_user
 
 RUN mkdir $HOME
 RUN mkdir $STARTUPDIR

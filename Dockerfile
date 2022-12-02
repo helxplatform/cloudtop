@@ -21,13 +21,13 @@ ENV HOME=/headless \
     VNC_PW="" \
     VNC_VIEW_ONLY=false \
     TOMCAT_PORT=8080 \
-    USER_NAME="" \
+    USER_NAME="main_user" \
     USER_HOME="" \
     USER_ID=30000
 
 ENV USER=$USER_ID
 
-RUN groupadd -g 1136 fileperms && useradd -u 30000 -G 1136
+RUN groupadd -g 1136 fileperms && usermod -aG 1136 main_user
 
 RUN mkdir $HOME
 RUN mkdir $STARTUPDIR

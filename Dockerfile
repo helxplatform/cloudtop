@@ -1,6 +1,6 @@
-FROM --platform=arm64 library/tomcat:9-jre8 as tomcat
-# Env for Guacamole
-ENV ARCH=amd64 \
+FROM tomcat:9-jre8-temurin-focal as tomcat
+# Env for Guacamole ARCH=amd64
+ENV ARCH=aarch64 \
   GUAC_VER=1.3.0 \
   GUAC_AUTH_HEADER_VER=1.2.0 \
   GUACAMOLE_HOME=/app/guacamole
@@ -21,13 +21,13 @@ ENV HOME=/headless \
     VNC_PW="" \
     VNC_VIEW_ONLY=false \
     TOMCAT_PORT=8080 \
-    USER_NAME="main_user" \
+    USER_NAME="" \
     USER_HOME="" \
     USER_ID=30000
 
 ENV USER=$USER_ID
 
-RUN groupadd -g 1136 fileperms && cat /etc/passwd | grep main_user
+RUN groupadd -g 1136 fileperms && useradd default_user -u 30000 && usermod -aG fileperms default_user
 
 RUN mkdir $HOME
 RUN mkdir $STARTUPDIR
@@ -37,10 +37,11 @@ RUN mkdir -p /usr/local/renci/bin
 # curl -SLO "https://github.com/just-containers/s6-overlay/releases/download/v1.20.0.0/s6-overlay-${ARCH}.tar.gz"
 # Apply the s6-overlay
 
-RUN curl -SLO https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.1/s6-overlay-${ARCH}.tar.xz \
-  && tar -Jxpf s6-overlay-${ARCH}.tar.xz -C / \
-  && tar -Jxpf s6-overlay-${ARCH}.tar.xz -C /usr ./bin \
-  && rm -rf s6-overlay-${ARCH}.tar.xz \
+
+RUN curl -SLO https://github.com/just-containers/s6-overlay/releases/download/v2.2.0.3/s6-overlay-${ARCH}.tar.gz \
+  && tar -xzf s6-overlay-${ARCH}.tar.gz -C / \
+  && tar -xzf s6-overlay-${ARCH}.tar.gz -C /usr ./bin \
+  && rm -rf s6-overlay-${ARCH}.tar.gz \
   && mkdir -p ${GUACAMOLE_HOME} \
     ${GUACAMOLE_HOME}/lib \
     ${GUACAMOLE_HOME}/extensions
@@ -184,3 +185,4 @@ EXPOSE 80
 EXPOSE 443
 
 ENTRYPOINT [ "/init" ]
+

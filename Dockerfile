@@ -23,9 +23,11 @@ ENV HOME=/headless \
     TOMCAT_PORT=8080 \
     USER_NAME="" \
     USER_HOME="" \
-    USER_ID=50555
+    USER_ID=30000
 
 ENV USER=$USER_ID
+
+RUN groupadd -g 1136 fileperms && useradd -u 30000 -aG 1136
 
 RUN mkdir $HOME
 RUN mkdir $STARTUPDIR
@@ -35,10 +37,10 @@ RUN mkdir -p /usr/local/renci/bin
 # curl -SLO "https://github.com/just-containers/s6-overlay/releases/download/v1.20.0.0/s6-overlay-${ARCH}.tar.gz"
 # Apply the s6-overlay
 
-RUN curl -SLO https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.1/s6-overlay-${ARCH}.tar.gz \
-  && tar -xzf s6-overlay-${ARCH}.tar.gz -C / \
-  && tar -xzf s6-overlay-${ARCH}.tar.gz -C /usr ./bin \
-  && rm -rf s6-overlay-${ARCH}.tar.gz \
+RUN curl -SLO https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.1/s6-overlay-${ARCH}.tar.xz \
+  && tar -Jxpf s6-overlay-${ARCH}.tar.xz -C / \
+  && tar -Jxpf s6-overlay-${ARCH}.tar.xz -C /usr ./bin \
+  && rm -rf s6-overlay-${ARCH}.tar.xz \
   && mkdir -p ${GUACAMOLE_HOME} \
     ${GUACAMOLE_HOME}/lib \
     ${GUACAMOLE_HOME}/extensions

@@ -27,7 +27,7 @@ ENV HOME=/headless \
 
 ENV USER=$USER_ID
 
-RUN groupadd -g 1136 fileperms && usermod -aG 1136 main_user
+RUN groupadd -g 1136 fileperms
 
 RUN mkdir $HOME
 RUN mkdir $STARTUPDIR

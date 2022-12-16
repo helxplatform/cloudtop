@@ -1,3 +1,4 @@
+#
 FROM tomcat:9-jre8-temurin-focal as tomcat
 # Env for Guacamole ARCH=amd64
 ENV ARCH=aarch64 \

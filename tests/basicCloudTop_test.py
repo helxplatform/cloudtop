@@ -13,12 +13,16 @@ def image (pytestconfig):
    return pytestconfig.getoption("image")
 
 @pytest.fixture()
-def user (pytestconfig):
-   return pytestconfig.getoption("user")
-
-@pytest.fixture()
 def passwd (pytestconfig):
    return pytestconfig.getoption("passwd")
+
+@pytest.fixture()
+def port (pytestconfig):
+   return pytestconfig.getoption("port")
+
+@pytest.fixture()
+def user (pytestconfig):
+   return pytestconfig.getoption("user")
 
 def execute(cmd):
     with Popen(cmd, stdout=PIPE, bufsize=1, universal_newlines=True) as proc:
@@ -34,7 +38,7 @@ def execute(cmd):
     if proc.returncode != 0:
         raise CalledProcessError(proc.returncode, proc.args)
 
-def test_cloudtop_init(image, user, passwd):
+def test_cloudtop_init(image, passwd, port, user):
 
    envDict = {
       "USER_NAME": user,
@@ -42,7 +46,7 @@ def test_cloudtop_init(image, user, passwd):
    }
 
    portDict = {
-      '8080': 8080
+      '8080': port
    }
 
    client = docker.from_env()
@@ -67,7 +71,7 @@ def test_cloudtop_init(image, user, passwd):
    client.containers.prune()
    return returnVal
 
-def test_cloudtop_glx(image, user, passwd):
+def test_cloudtop_glx(image, passwd, port, user):
 
    envDict = {
       "USER_NAME": user,
@@ -75,7 +79,7 @@ def test_cloudtop_glx(image, user, passwd):
    }
 
    portDict = {
-      '8080': 8080
+      '8080': port
    }
 
    client = docker.from_env()
@@ -114,6 +118,7 @@ def main():
    image = image()
    user = user()
    passwd = passwd()
+   port = port()
 
-   assert test_cloudtop_init(image, user, passwd) == True 
-   assert test_cloudtop_glx(image, user, passwd) == True 
+   assert test_cloudtop_init(image, passwd, port, user) == True 
+   assert test_cloudtop_glx(image, passwd, port, user, port, user) == True 
